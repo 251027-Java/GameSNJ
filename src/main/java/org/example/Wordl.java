@@ -8,19 +8,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
+import static org.example.ColoredLetters.*;
 
 
 public class Wordl {
     //public static final String GREEN = "\u001B[32m";
     public static String correctWord;
+    int guessesLeft = 6;
+    private boolean gameWon = false;
+    public List<String> myStringList = new ArrayList<>();
     static void main() {
 
         //1 .given 5 letter blank word
         correctWord = chooseWord();
         IO.println(correctWord);
-        DisplayWord(correctWord);
-
 
         // guessedWord, correctWord
         //2. ask for input
@@ -40,6 +41,8 @@ public class Wordl {
         String guess;
         int attempts = 6;
 
+        Wordl wordl = new Wordl();
+
         while(attempts > 0) {
             System.out.print("Enter your guess: ");
             guess = sc.nextLine();
@@ -48,8 +51,10 @@ public class Wordl {
                 System.out.println("Valid guess.");
                 // continue with checks
             }else {
-                attempts--;
+                break;
             }
+            IO.println(wordl.checkUserGuess(guess,correctWord));
+            attempts--;
 
         }
 
@@ -94,6 +99,26 @@ public class Wordl {
             correctWord = words.get(rand.nextInt(words.size()));
         } catch (Exception e) { IO.println("File not found!");}
         return correctWord;
+    }
+    public String checkUserGuess(String guess, String correctWord) {
+        String returnWord = ""; //Creates an empty String for the word to be returned
+        if (guess.toUpperCase().equals(correctWord)) {
+            this.gameWon = true;        //if the guessed word is the same as the correct word sets the game won setting to true
+            return(GREEN + correctWord);    //and retursn an all green word
+        }
+        for (int i = 0; i < correctWord.length(); i++){
+            if (guess.charAt(i) == correctWord.charAt(i)){
+                returnWord = (returnWord + GREEN + guess.charAt(i));
+            }
+            else if(correctWord.indexOf(guess.charAt(i)) != -1){
+                returnWord = (returnWord + YELLOW + guess.charAt(i));
+            }
+            else{
+                returnWord += (RESET + guess.charAt(i));
+            }
+        }
+        this.myStringList.add(returnWord);
+        return returnWord;
     }
 
 }
