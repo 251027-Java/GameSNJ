@@ -1,4 +1,6 @@
 package org.example;
+import java.util.Scanner;
+import java.util.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,7 +15,7 @@ public class Wordl {
     //public static final String GREEN = "\u001B[32m";
     public static String correctWord;
     static void main() {
-        //System.out.println(GREEN + "This text is green.");
+
         //1 .given 5 letter blank word
         correctWord = chooseWord();
         IO.println(correctWord);
@@ -32,6 +34,46 @@ public class Wordl {
         //8. update number of guesses our of 6
         //numGuesses
         //9. if not guessed correctly show user loses
+
+        Scanner sc = new Scanner(System.in);
+        String correctWord = "apple";
+        String guess;
+        int attempts = 6;
+
+        while(attempts > 0) {
+            System.out.print("Enter your guess: ");
+            guess = sc.nextLine();
+
+            if(isValidInput(guess, correctWord)) {
+                System.out.println("Valid guess.");
+                // continue with checks
+            }else {
+                attempts--;
+            }
+
+        }
+
+    }
+
+    public static boolean isValidInput(String userInput, String correctWord) {
+        userInput = userInput.toUpperCase();
+
+        if(userInput.isEmpty()) {
+            System.out.println("The word cannot be empty.");
+            return false;
+        }
+
+        if(!userInput.matches("[A-Z]+")) {
+            System.out.println("The word must contain only letters (A-Z).");
+            return false;
+        }
+
+        if(userInput.length() != correctWord.length()) {
+            System.out.println("The word must be " + correctWord.length() + " letters long.");
+            return false;
+        }
+
+        return true; // meets all valid input requirements
     }
 
     public static String chooseWord() {
