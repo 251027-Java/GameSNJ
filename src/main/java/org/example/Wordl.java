@@ -37,7 +37,7 @@ public class Wordl {
         Scanner sc = new Scanner(System.in);
         String guess;
         correctWord = chooseWord();
-        IO.println(correctWord);
+        //IO.println(correctWord);
 
         //Wordl wordl = new Wordl();
 
@@ -57,6 +57,7 @@ public class Wordl {
             attempts--;
 
         }
+        IO.println("Better luck next time! Your word was: " + correctWord);
 
     }
 
