@@ -15,8 +15,9 @@ public class Wordl {
     //public static final String GREEN = "\u001B[32m";
     public static String correctWord;
     int guessesLeft = 6;
-    private static boolean gameWon = false;
-    public List<String> myStringList = new ArrayList<>();
+    public static boolean gameWon = false;
+    public static List<String> myStringList = new ArrayList<>();
+    public static int attempts = 6;
     static void main() {
 
         //1 .given 5 letter blank word
@@ -36,12 +37,13 @@ public class Wordl {
         Scanner sc = new Scanner(System.in);
         String guess;
         correctWord = chooseWord();
+        IO.println(correctWord);
 
         //Wordl wordl = new Wordl();
 
-        while(wordl.guessesLeft > 0 && !gameWon) {
+        while(attempts > 0) {
             System.out.print("You have " + attempts + " attempts left: ");
-            System.out.print("Enter your guess: ");
+            System.out.print("\nEnter your guess: ");
             guess = sc.nextLine();
             gameWon = checkUserGuess(guess, correctWord, attempts);
 
@@ -52,8 +54,8 @@ public class Wordl {
                 System.out.println("The word was " + correctWord + " you win!");
                 break;
             }
-            gameWon = wordl.checkUserGuess(guess,correctWord);
-            wordl.guessesLeft--;
+            //IO.println(wordl.checkUserGuess(guess, correctWord, attempts));
+            attempts--;
 
         }
 
@@ -99,29 +101,27 @@ public class Wordl {
         } catch (Exception e) { IO.println("File not found!");}
         return correctWord;
     }
-    public boolean checkUserGuess(String guess, String correctWord) {
+    public static boolean checkUserGuess(String guess, String correctWord, int attempts) {
         String returnWord = ""; //Creates an empty String for the word to be returned
-        if (guess.equalsIgnoreCase(correctWord)) {
-            IO.println(GREEN + correctWord + RESET);    //and returns an all green word
-            IO.println("Congratulations, you guessed the Wordl!");
-            return true;
+        if (guess.toUpperCase().equals(correctWord.toUpperCase())) {
+            gameWon = true;        //if the guessed word is the same as the correct word sets the game won setting to true
+            returnWord = (GREEN + correctWord);    //and returns an all green word
+            return gameWon;
         }
         for (int i = 0; i < correctWord.length(); i++){
             if (guess.charAt(i) == correctWord.charAt(i)){
-                returnWord = (returnWord + GREEN + guess.charAt(i) + RESET);
+                returnWord = (returnWord + GREEN + guess.charAt(i));
             }
             else if(correctWord.indexOf(guess.charAt(i)) != -1){
-                returnWord = (returnWord + YELLOW + guess.charAt(i) + RESET);
+                returnWord = (returnWord + YELLOW + guess.charAt(i));
             }
             else{
                 returnWord += (RESET + guess.charAt(i));
             }
         }
-        this.myStringList.add(returnWord);
-        for(String word : this.myStringList){
-            IO.println(word);
-        }
-        return false;
+        myStringList.add(returnWord);
+        System.out.println(returnWord);
+        return gameWon;
     }
 
 }
