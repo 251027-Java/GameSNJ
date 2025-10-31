@@ -39,10 +39,13 @@ public class Wordl {
         correctWord = chooseWord();
         IO.println(correctWord);
 
+        //Wordl wordl = new Wordl();
+
         while(attempts > 0) {
-            System.out.println(ColoredLetters.RESET + "You have " + attempts + " attempts left: ");
-            System.out.print(ColoredLetters.RESET + "\nEnter your guess: ");
+            System.out.print("You have " + attempts + " attempts left: ");
+            System.out.print("\nEnter your guess: ");
             guess = sc.nextLine();
+            gameWon = checkUserGuess(guess, correctWord, attempts);
 
             if (!isValidInput(guess, correctWord)) {
                 continue;
@@ -87,7 +90,9 @@ public class Wordl {
             List<String> words = new ArrayList<String>();
             while (line != null) {
                 String[] wordsLine = line.split(" ");
-                words.addAll(Arrays.asList(wordsLine));
+                for (String word : wordsLine) {
+                    words.add(word);
+                }
                 line = reader.readLine();
             }
 
@@ -97,24 +102,24 @@ public class Wordl {
         return correctWord;
     }
     public static boolean checkUserGuess(String guess, String correctWord, int attempts) {
-        StringBuilder returnWord = new StringBuilder(); //Creates an empty String for the word to be returned
+        String returnWord = ""; //Creates an empty String for the word to be returned
         if (guess.toUpperCase().equals(correctWord.toUpperCase())) {
             gameWon = true;        //if the guessed word is the same as the correct word sets the game won setting to true
-            returnWord = new StringBuilder((GREEN + correctWord));    //and returns an all green word
+            returnWord = (GREEN + correctWord);    //and returns an all green word
             return gameWon;
         }
         for (int i = 0; i < correctWord.length(); i++){
             if (guess.charAt(i) == correctWord.charAt(i)){
-                returnWord.append(GREEN).append(guess.charAt(i));
+                returnWord = (returnWord + GREEN + guess.charAt(i));
             }
             else if(correctWord.indexOf(guess.charAt(i)) != -1){
-                returnWord.append(YELLOW).append(guess.charAt(i));
+                returnWord = (returnWord + YELLOW + guess.charAt(i));
             }
             else{
-                returnWord.append(RESET).append(guess.charAt(i));
+                returnWord += (RESET + guess.charAt(i));
             }
         }
-        myStringList.add(returnWord.toString());
+        myStringList.add(returnWord);
         System.out.println(returnWord);
         return gameWon;
     }

@@ -20,7 +20,7 @@ public class Wordl {
     //8. update number of guesses our of 6
     //numGuesses
     //9. if not guessed correctly show user loses
-    int guessesLeft = 6;
+    int totalGuesses = 6;
     private boolean gameWon = false;
     public List<String> myStringList = new ArrayList<>();
 
@@ -35,7 +35,7 @@ public class Wordl {
         String returnWord = ""; //Creates an empty String for the word to be returned
         if (guess.toUpperCase().equals(correctWord)) {
             this.gameWon = true;        //if the guessed word is the same as the correct word sets the game won setting to true
-            return(GREEN + correctWord);    //and retursn an all green word
+            return(GREEN + correctWord);    //and returns an all green word
         }
         for (int i = 0; i < correctWord.length(); i++){
             if (guess.charAt(i) == correctWord.charAt(i)){
