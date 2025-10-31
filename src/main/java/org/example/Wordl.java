@@ -42,10 +42,9 @@ public class Wordl {
         //Wordl wordl = new Wordl();
 
         while(attempts > 0) {
-            System.out.print("You have " + attempts + " attempts left: ");
-            System.out.print("\nEnter your guess: ");
+            System.out.print(RESET + "You have " + attempts + " attempts left: ");
+            System.out.print(RESET + "\nEnter your guess: ");
             guess = sc.nextLine();
-            gameWon = checkUserGuess(guess, correctWord, attempts);
 
             if (!isValidInput(guess, correctWord)) {
                 continue;
