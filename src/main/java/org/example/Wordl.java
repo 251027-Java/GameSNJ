@@ -39,13 +39,10 @@ public class Wordl {
         correctWord = chooseWord();
         IO.println(correctWord);
 
-        //Wordl wordl = new Wordl();
-
         while(attempts > 0) {
             System.out.print("You have " + attempts + " attempts left: ");
             System.out.print("\nEnter your guess: ");
             guess = sc.nextLine();
-            gameWon = checkUserGuess(guess, correctWord, attempts);
 
             if (!isValidInput(guess, correctWord)) {
                 continue;
@@ -102,24 +99,24 @@ public class Wordl {
         return correctWord;
     }
     public static boolean checkUserGuess(String guess, String correctWord, int attempts) {
-        String returnWord = ""; //Creates an empty String for the word to be returned
+        StringBuilder returnWord = new StringBuilder(); //Creates an empty String for the word to be returned
         if (guess.toUpperCase().equals(correctWord.toUpperCase())) {
             gameWon = true;        //if the guessed word is the same as the correct word sets the game won setting to true
-            returnWord = (GREEN + correctWord);    //and returns an all green word
+            returnWord = new StringBuilder((GREEN + correctWord));    //and returns an all green word
             return gameWon;
         }
         for (int i = 0; i < correctWord.length(); i++){
             if (guess.charAt(i) == correctWord.charAt(i)){
-                returnWord = (returnWord + GREEN + guess.charAt(i));
+                returnWord.append(GREEN).append(guess.charAt(i));
             }
             else if(correctWord.indexOf(guess.charAt(i)) != -1){
-                returnWord = (returnWord + YELLOW + guess.charAt(i));
+                returnWord.append(YELLOW).append(guess.charAt(i));
             }
             else{
-                returnWord += (RESET + guess.charAt(i));
+                returnWord.append(RESET).append(guess.charAt(i));
             }
         }
-        myStringList.add(returnWord);
+        myStringList.add(returnWord.toString());
         System.out.println(returnWord);
         return gameWon;
     }
