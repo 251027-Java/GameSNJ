@@ -15,14 +15,12 @@ public class Wordl {
     //public static final String GREEN = "\u001B[32m";
     public static String correctWord;
     int guessesLeft = 6;
-    private boolean gameWon = false;
-    public List<String> myStringList = new ArrayList<>();
+    public static boolean gameWon = false;
+    public static List<String> myStringList = new ArrayList<>();
+    public static int attempts = 6;
     static void main() {
 
         //1 .given 5 letter blank word
-        correctWord = chooseWord();
-        IO.println(correctWord);
-
         // guessedWord, correctWord
         //2. ask for input
         // userWord
@@ -37,23 +35,26 @@ public class Wordl {
         //9. if not guessed correctly show user loses
 
         Scanner sc = new Scanner(System.in);
-        String correctWord = "apple";
         String guess;
-        int attempts = 6;
+        correctWord = chooseWord();
+        IO.println(correctWord);
 
-        Wordl wordl = new Wordl();
+        //Wordl wordl = new Wordl();
 
         while(attempts > 0) {
-            System.out.print("Enter your guess: ");
+            System.out.print("You have " + attempts + " attempts left: ");
+            System.out.print("\nEnter your guess: ");
             guess = sc.nextLine();
+            gameWon = checkUserGuess(guess, correctWord, attempts);
 
-            if(isValidInput(guess, correctWord)) {
-                System.out.println("Valid guess.");
-                // continue with checks
-            }else {
+            if (!isValidInput(guess, correctWord)) {
+                continue;
+            }
+            if (checkUserGuess(guess, correctWord, attempts)) { //Objects.equals(guess, correctWord)
+                System.out.println("The word was " + correctWord + " you win!");
                 break;
             }
-            IO.println(wordl.checkUserGuess(guess,correctWord));
+            //IO.println(wordl.checkUserGuess(guess, correctWord, attempts));
             attempts--;
 
         }
@@ -100,11 +101,12 @@ public class Wordl {
         } catch (Exception e) { IO.println("File not found!");}
         return correctWord;
     }
-    public String checkUserGuess(String guess, String correctWord) {
+    public static boolean checkUserGuess(String guess, String correctWord, int attempts) {
         String returnWord = ""; //Creates an empty String for the word to be returned
-        if (guess.toUpperCase().equals(correctWord)) {
-            this.gameWon = true;        //if the guessed word is the same as the correct word sets the game won setting to true
-            return(GREEN + correctWord);    //and retursn an all green word
+        if (guess.toUpperCase().equals(correctWord.toUpperCase())) {
+            gameWon = true;        //if the guessed word is the same as the correct word sets the game won setting to true
+            returnWord = (GREEN + correctWord);    //and returns an all green word
+            return gameWon;
         }
         for (int i = 0; i < correctWord.length(); i++){
             if (guess.charAt(i) == correctWord.charAt(i)){
@@ -117,8 +119,9 @@ public class Wordl {
                 returnWord += (RESET + guess.charAt(i));
             }
         }
-        this.myStringList.add(returnWord);
-        return returnWord;
+        myStringList.add(returnWord);
+        System.out.println(returnWord);
+        return gameWon;
     }
 
 }
