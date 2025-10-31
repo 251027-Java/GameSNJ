@@ -40,8 +40,8 @@ public class Wordl {
         IO.println(correctWord);
 
         while(attempts > 0) {
-            System.out.print("You have " + attempts + " attempts left: ");
-            System.out.print("\nEnter your guess: ");
+            System.out.println(ColoredLetters.RESET + "You have " + attempts + " attempts left: ");
+            System.out.print(ColoredLetters.RESET + "\nEnter your guess: ");
             guess = sc.nextLine();
 
             if (!isValidInput(guess, correctWord)) {
@@ -87,9 +87,7 @@ public class Wordl {
             List<String> words = new ArrayList<String>();
             while (line != null) {
                 String[] wordsLine = line.split(" ");
-                for (String word : wordsLine) {
-                    words.add(word);
-                }
+                words.addAll(Arrays.asList(wordsLine));
                 line = reader.readLine();
             }
 
