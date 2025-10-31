@@ -20,9 +20,6 @@ public class Wordl {
     static void main() {
 
         //1 .given 5 letter blank word
-        correctWord = chooseWord();
-        IO.println(correctWord);
-
         // guessedWord, correctWord
         //2. ask for input
         // userWord
@@ -38,17 +35,21 @@ public class Wordl {
 
         Scanner sc = new Scanner(System.in);
         String guess;
+        correctWord = chooseWord();
 
-        Wordl wordl = new Wordl();
+        //Wordl wordl = new Wordl();
 
         while(wordl.guessesLeft > 0 && !gameWon) {
+            System.out.print("You have " + attempts + " attempts left: ");
             System.out.print("Enter your guess: ");
             guess = sc.nextLine();
+            gameWon = checkUserGuess(guess, correctWord, attempts);
 
-            if(isValidInput(guess, correctWord)) {
-                System.out.println("Valid guess.");
-                // continue with checks
-            }else {
+            if (!isValidInput(guess, correctWord)) {
+                continue;
+            }
+            if (checkUserGuess(guess, correctWord, attempts)) { //Objects.equals(guess, correctWord)
+                System.out.println("The word was " + correctWord + " you win!");
                 break;
             }
             gameWon = wordl.checkUserGuess(guess,correctWord);
