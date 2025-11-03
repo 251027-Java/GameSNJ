@@ -40,7 +40,7 @@ public class Wordl {
         Scanner sc = new Scanner(System.in);
         String guess;
         correctWord = chooseWord();
-        IO.println(correctWord);
+        //IO.println(correctWord);
 
         while(attempts > 0) {
             System.out.print(RESET + "You have " + attempts + " attempts left: ");
@@ -57,7 +57,7 @@ public class Wordl {
             attempts--;
 
         }
-
+        System.out.println("You lost :( The word was " + correctWord);
     }
 
     public static boolean isValidInput(String userInput, String correctWord) throws FileNotFoundException {
