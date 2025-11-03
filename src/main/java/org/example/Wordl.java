@@ -131,9 +131,8 @@ public class Wordl {
 
         try (Scanner scanner = new Scanner(new File(filePath))) {
             while (scanner.hasNextLine()) {
-                String word = scanner.nextLine().trim(); // Trim to remove spaces or newline issues
-                if (word.equalsIgnoreCase(guess)) { // Optional: ignore case
-                    System.out.println("Match found: " + word);
+                String word = scanner.nextLine().trim();
+                if (word.equalsIgnoreCase(guess)) {
                     return true;
                 }
             }
