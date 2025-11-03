@@ -57,7 +57,7 @@ public class Wordl {
             attempts--;
 
         }
-        System.out.println("You lost :( The word was " + correctWord);
+        System.out.println(RESET + "You lost :( The word was " + correctWord);
     }
 
     public static boolean isValidInput(String userInput, String correctWord) throws FileNotFoundException {
