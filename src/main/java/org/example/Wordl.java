@@ -1,4 +1,6 @@
 package org.example;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.*;
 
@@ -18,7 +20,8 @@ public class Wordl {
     public static boolean gameWon = false;
     public static List<String> myStringList = new ArrayList<>();
     public static int attempts = 6;
-    static void main() {
+    static boolean valid;
+    static void main() throws FileNotFoundException {
 
         //1 .given 5 letter blank word
         // guessedWord, correctWord
@@ -39,8 +42,6 @@ public class Wordl {
         correctWord = chooseWord();
         IO.println(correctWord);
 
-        //Wordl wordl = new Wordl();
-
         while(attempts > 0) {
             System.out.print(RESET + "You have " + attempts + " attempts left: ");
             System.out.print(RESET + "\nEnter your guess: ");
@@ -53,21 +54,18 @@ public class Wordl {
                 System.out.println("The word was " + correctWord + " you win!");
                 break;
             }
-            //IO.println(wordl.checkUserGuess(guess, correctWord, attempts));
             attempts--;
 
         }
 
     }
 
-    public static boolean isValidInput(String userInput, String correctWord) {
+    public static boolean isValidInput(String userInput, String correctWord) throws FileNotFoundException {
         userInput = userInput.toUpperCase();
-
         if(userInput.isEmpty()) {
             System.out.println("The word cannot be empty.");
             return false;
         }
-
         if(!userInput.matches("[A-Z]+")) {
             System.out.println("The word must contain only letters (A-Z).");
             return false;
@@ -75,6 +73,10 @@ public class Wordl {
 
         if(userInput.length() != correctWord.length()) {
             System.out.println("The word must be " + correctWord.length() + " letters long.");
+            return false;
+        }
+        if(!possibleGuesses(userInput)){
+            System.out.println("Not a word!");
             return false;
         }
 
@@ -100,6 +102,7 @@ public class Wordl {
         } catch (Exception e) { IO.println("File not found!");}
         return correctWord;
     }
+
     public static boolean checkUserGuess(String guess, String correctWord, int attempts) {
         String returnWord = ""; //Creates an empty String for the word to be returned
         if (guess.toUpperCase().equals(correctWord.toUpperCase())) {
@@ -122,5 +125,25 @@ public class Wordl {
         System.out.println(returnWord);
         return gameWon;
     }
+
+    public static boolean possibleGuesses(String guess) {
+        String filePath = "src/main/java/org/example/PossibleWords.txt";
+
+        try (Scanner scanner = new Scanner(new File(filePath))) {
+            while (scanner.hasNextLine()) {
+                String word = scanner.nextLine().trim(); // Trim to remove spaces or newline issues
+                if (word.equalsIgnoreCase(guess)) { // Optional: ignore case
+                    System.out.println("Match found: " + word);
+                    return true;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found: " + filePath);
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
 
 }
